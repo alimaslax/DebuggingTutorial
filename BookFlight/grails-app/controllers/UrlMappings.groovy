@@ -8,9 +8,15 @@ class UrlMappings {
         }
 
         // Map to HTTP methods.
-        "/show"(controller: 'index') {
-            params = "Order"
+        "/showAll"(controller: 'index') {
             action = [GET: 'show']
+        }
+        // Map to HTTP methods.
+        "/search"(controller: 'index') {
+            action = [GET: 'search']
+        }
+        "/save"(controller: 'index') {
+            action = [POST: 'save']
         }
 
         "/"(controller: 'index')

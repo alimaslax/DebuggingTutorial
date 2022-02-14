@@ -1,0 +1,112 @@
+[
+  {
+    "id": 0,
+    "arrivalTime": "6:00",
+    "date": "2022/01/01",
+    "departureTime": "5:00",
+    "destination": "Boston (BOS)",
+    "flightNo": "AI-102",
+    "name": "Delta",
+    "origin": "Los Angeles (LAX)",
+    "price": 325
+  },
+  {
+    "id": 1,
+    "arrivalTime": "8:00",
+    "date": "2022/01/01",
+    "departureTime": "6:00",
+    "destination": "Boston (BOS)",
+    "flightNo": "AJ-102",
+    "name": "Delta",
+    "origin": "Los Angeles (LAX)",
+    "price": 300
+  },
+  {
+    "id": 2,
+    "arrivalTime": "9:00",
+    "date": "2022/01/02",
+    "departureTime": "7:00",
+    "destination": "Boston (BOS)",
+    "flightNo": "AJ-102",
+    "name": "Delta",
+    "origin": "Los Angeles (LAX)",
+    "price": 3525
+  },
+  {
+    "id": 3,
+    "arrivalTime": "10:00",
+    "date": "2022/01/02",
+    "departureTime": "8:00",
+    "destination": "Boston (BOS)",
+    "flightNo": "AJ-102",
+    "name": "Delta",
+    "origin": "Los Angeles (LAX)",
+    "price": 3525
+  },
+  {
+    "id": 4,
+    "arrivalTime": "12:00",
+    "date": "2022/01/03",
+    "departureTime": "10:00",
+    "destination": "Boston (BOS)",
+    "flightNo": "AJ-102",
+    "name": "Delta",
+    "origin": "Los Angeles (LAX)",
+    "price": 3525
+  },
+  {
+    "id": 5,
+    "arrivalTime": "08:00",
+    "date": "2022/01/04",
+    "departureTime": "06:00",
+    "destination": "Los Angeles (LAX)",
+    "flightNo": "AJ-A98",
+    "name": "Delta",
+    "origin": "Boston (BOS)",
+    "price": 3525
+  },
+  {
+    "id": 6,
+    "arrivalTime": "10:00",
+    "date": "2022/01/04",
+    "departureTime": "08:00",
+    "destination": "Los Angeles (LAX)",
+    "flightNo": "AJ-A98",
+    "name": "Delta",
+    "origin": "Boston (BOS)",
+    "price": 3525
+  },
+  {
+    "id": 7,
+    "arrivalTime": "11:00",
+    "date": "2022/01/04",
+    "departureTime": "09:00",
+    "destination": "Los Angeles (LAX)",
+    "flightNo": "AJ-A98",
+    "name": "Delta",
+    "origin": "Boston (BOS)",
+    "price": 3525
+  },
+  {
+    "id": 8,
+    "arrivalTime": "13:00",
+    "date": "2022/01/04",
+    "departureTime": "11:00",
+    "destination": "Los Angeles (LAX)",
+    "flightNo": "AJ-A98",
+    "name": "Delta",
+    "origin": "Boston (BOS)",
+    "price": 3525
+  },
+  {
+    "id": 9,
+    "arrivalTime": "15:00",
+    "date": "2022/01/05",
+    "departureTime": "13:00",
+    "destination": "Los Angeles (LAX)",
+    "flightNo": "AJ-A98",
+    "name": "Delta",
+    "origin": "Boston (BOS)",
+    "price": "352s5"
+  }
+]

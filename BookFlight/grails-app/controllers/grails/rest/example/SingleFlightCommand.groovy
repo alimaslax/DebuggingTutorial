@@ -1,8 +1,8 @@
 package grails.rest.example
 
-import grails.converters.JSON
-import grails.rest.*
 import grails.validation.Validateable
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 class SingleFlightCommand implements Validateable {
 
@@ -19,7 +19,7 @@ class SingleFlightCommand implements Validateable {
     }
 
     static constraints = {
-        user blank:false
+        user blank:false, validator: { val, obj, errors -> obj.validateUser(val,obj,errors) }
         departure blank:false
         arrival blank:false
         date nullable:false, validator: { val, obj, errors -> obj.validateDate(val,obj,errors) }
@@ -34,4 +34,28 @@ class SingleFlightCommand implements Validateable {
         return true;
     }
 
+    boolean validateUser(String val, obj, errors){
+        try{
+            Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(val);
+            boolean foundSpecialChar = m.find();
+            if(foundSpecialChar){
+                errors.rejectValue("user", "not valid user")
+            }
+
+        } catch(Exception e){
+            errors.rejectValue("user", "not valid user")
+        }
+        return true;
+    }
+
+    SingleFlightCommand buildDB(Long id, String user, String departure, String arrival, String date){
+        def flight = new SingleFlightCommand()
+        flight.user = user
+        flight.departure = departure
+        flight.arrival = arrival
+        flight.date = date
+        flight.id = id
+        return flight
+    }
 }

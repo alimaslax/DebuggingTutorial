@@ -1,14 +1,19 @@
 package grails.rest.example
 
+import grails.converters.JSON
+import grails.rest.example.Flight
 import grails.core.GrailsApplication
 import grails.rest.example.SingleFlightCommand
+import grails.rest.example.SearchFlightCommand
 import grails.util.Environment
+import groovy.json.JsonSlurper
+import org.grails.web.json.JSONArray
 
 class IndexController {
 
     GrailsApplication grailsApplication
 
-    SingleFlightCommand cmd
+    SearchFlightCommand cmd
 
     def index() {
         render(contentType: 'application/json') {
@@ -31,21 +36,71 @@ class IndexController {
             }
         }
     }
-    def show(SingleFlightCommand cmd) {
-        def test = params
-        int i = 0
-        int j = 0
-        if(cmd.hasErrors()){
-            render(contentType: 'application/json'){
-                message = "${cmd.errors.getAllErrors()[0].field} is invalid"
-                environment = Environment.current.name
-                appversion = grailsApplication.metadata['info.app.version']
-                grailsversion = grailsApplication.metadata['info.app.grailsVersion']
+    def show() {
+        //fetch flights from db
+        ArrayList<Flight> flights = new ArrayList<Flight>()
+        def file = new File("./grails-app/controllers/grails/rest/example/flights.json")
+        def db = new JsonSlurper().parse(file.newInputStream());
+
+        //create in-memory data
+        for(flight in db){
+            def json = groovy.json.JsonOutput.toJson(flight)
+            flights.add(new Flight(JSON.parse(json)))
+        }
+
+        render(contentType: 'application/json; charset=utf-8') {
+            flights = flights as JSONArray;
+        }
+
+    }
+
+    def save(SearchFlightCommand cmd){
+        render(contentType: 'application/json; charset=utf-8') {
+            id = cmd.id
+            isBooked = true
+        }
+    }
+    def search(SearchFlightCommand cmd) {
+        //fetch flights from db
+        ArrayList<Flight> flights = new ArrayList<Flight>()
+        def file = new File("./grails-app/controllers/grails/rest/example/flights.json")
+        def db = new JsonSlurper().parse(file.newInputStream());
+        //create in-memory data
+        for(flight in db){
+            def json = groovy.json.JsonOutput.toJson(flight)
+            flights.add(new Flight(JSON.parse(json)))
+        }
+
+        //filter through results
+        flights = flights.findAll {
+            Date flightDate = Date.parse("yyyy/MM/dd",it.date)
+            flightDate > cmd.startDate && flightDate < cmd.endDate
+        }
+        //render response
+        render(contentType: 'application/json; charset=utf-8') {
+            flights = flights as JSONArray;
+        }
+    }
+
+    private List<SingleFlightCommand> fetchFromDatabase(){
+        [
+                new SingleFlightCommand(id:1, date:"08/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
+                new SingleFlightCommand(id:1, date:"09/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
+                new SingleFlightCommand(id:1, date:"10/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
+                new SingleFlightCommand(id:1, date:"11/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
+                new SingleFlightCommand(id:1, date:"12/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
+                new SingleFlightCommand(id:1, date:"01/2022", user:"mali", departure:"KCMS",arrival:"KBOS"),
+                new SingleFlightCommand(id:1, date:"02/2022", user:"mali", departure:"KCMS",arrival:"KBOS")
+        ]
+    }
+    private List<SingleFlightCommand> filterByDate(ArrayList<SingleFlightCommand> flts){
+        try {
+            return flts.findResults {
+                true
             }
         }
-        render(contentType: 'application/json') {
-            message = "Flight is booked"
-
+        catch(Exception e){
+            return []
         }
     }
 }
