@@ -44,7 +44,7 @@ function* bookFlight(payload) {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({id: payload.payload})
+      body: JSON.stringify({id: payload})
     })
       .then(response => response.json());
     yield put({ type: "BOOK_FLIGHT_SUCCESS", json: json });
