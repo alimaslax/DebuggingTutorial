@@ -11,10 +11,16 @@ class UrlMappings {
         "/showAll"(controller: 'index') {
             action = [GET: 'show']
         }
+
         // Map to HTTP methods.
         "/search"(controller: 'index') {
             action = [GET: 'search']
         }
+
+        "/internalSearch"(controller: 'index') {
+            action = [GET: 'internalSearch']
+        }
+
         "/save"(controller: 'index') {
             action = [POST: 'save']
         }

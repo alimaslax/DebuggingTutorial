@@ -13,8 +13,6 @@ class IndexController {
 
     GrailsApplication grailsApplication
 
-    SearchFlightCommand cmd
-
     def index() {
         render(contentType: 'application/json') {
             message = "Welcome to Grails!"
@@ -54,13 +52,26 @@ class IndexController {
 
     }
 
-    def save(SearchFlightCommand cmd){
+    def save(SingleFlightCommand cmd){
+        if(cmd.hasErrors()){
+            def allErrors = cmd.errors.allErrors
+            throw new Exception("ERROR 505: flight could not be booked")
+        }
         render(contentType: 'application/json; charset=utf-8') {
             id = cmd.id
             isBooked = true
         }
     }
     def search(SearchFlightCommand cmd) {
+        if(cmd.hasErrors()){
+            def allErrors = cmd.errors.allErrors
+            throw new Exception("ERROR 505: search could not be completed")
+        }
+        //create Date objects
+        ArrayList<String> dateRange = new ArrayList<>(Arrays.asList(cmd.dateRange.split("-")));
+        Date startDate = Date.parse("MM/yyyy",dateRange[0])
+        Date endDate = Date.parse("MM/yyyy",dateRange[1])
+
         //fetch flights from db
         ArrayList<Flight> flights = new ArrayList<Flight>()
         def file = new File("./grails-app/controllers/grails/rest/example/flights.json")
@@ -74,33 +85,40 @@ class IndexController {
         //filter through results
         flights = flights.findAll {
             Date flightDate = Date.parse("yyyy/MM/dd",it.date)
-            flightDate > cmd.startDate && flightDate < cmd.endDate
+            flightDate > startDate && flightDate < endDate
         }
         //render response
         render(contentType: 'application/json; charset=utf-8') {
             flights = flights as JSONArray;
         }
     }
-
-    private List<SingleFlightCommand> fetchFromDatabase(){
-        [
-                new SingleFlightCommand(id:1, date:"08/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
-                new SingleFlightCommand(id:1, date:"09/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
-                new SingleFlightCommand(id:1, date:"10/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
-                new SingleFlightCommand(id:1, date:"11/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
-                new SingleFlightCommand(id:1, date:"12/2021", user:"mali", departure:"KCMS",arrival:"KBOS"),
-                new SingleFlightCommand(id:1, date:"01/2022", user:"mali", departure:"KCMS",arrival:"KBOS"),
-                new SingleFlightCommand(id:1, date:"02/2022", user:"mali", departure:"KCMS",arrival:"KBOS")
-        ]
-    }
-    private List<SingleFlightCommand> filterByDate(ArrayList<SingleFlightCommand> flts){
-        try {
-            return flts.findResults {
-                true
-            }
+    def internalSearch(SearchFlightCommand cmd) {
+        if(cmd.hasErrors()){
+            def allErrors = cmd.errors.allErrors
+            throw new Exception("ERROR 505: search could not be completed")
         }
-        catch(Exception e){
-            return []
+        //create Date object
+        Date startDate = Date.parse("MM/yyyy",cmd.startDate)
+        Date endDate = Date.parse("MM/yyyy",cmd.endDate)
+
+        //fetch flights from db
+        ArrayList<Flight> flights = new ArrayList<Flight>()
+        def file = new File("./grails-app/controllers/grails/rest/example/flights.json")
+        def db = new JsonSlurper().parse(file.newInputStream());
+        //create in-memory data
+        for(flight in db){
+            def json = groovy.json.JsonOutput.toJson(flight)
+            flights.add(new Flight(JSON.parse(json)))
+        }
+
+        //filter through results
+        flights = flights.findAll {
+            Date flightDate = Date.parse("yyyy/MM",it.date)
+            flightDate > startDate && flightDate < endDate
+        }
+        //render response
+        render(contentType: 'application/json; charset=utf-8') {
+            flights = flights as JSONArray;
         }
     }
 }
