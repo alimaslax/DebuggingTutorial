@@ -35,7 +35,6 @@ Pass ID to grails backend
 
 
 ### RAPM-1053: Flight Center is having troubles searching Flights
-RAPM-1052: owner cannot A book flight
 Description: Since release cadence R2022.6: flight center is no longer able to search flights by date.
 
 Given:
