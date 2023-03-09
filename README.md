@@ -18,7 +18,7 @@ yarn install && yarn start
 Description: After logging in, an owner cannot book a flight. Their flight order is correct, but the system is not processing their flight request
 Given:
     From: Boston To: LA
-    Date: 01/04/2022
+    Date: 01/04/2023
     Passengers: any
 Acceptance Criteria:
     An Owner (mariá) books a flight
@@ -35,11 +35,11 @@ Pass ID to grails backend
 
 
 ### RAPM-1053: Flight Center is having troubles searching Flights
-Description: Since release cadence R2022.6: flight center is no longer able to search flights by date.
+Description: Since release cadence R2023.6: flight center is no longer able to search flights by date.
 
 Given:
-StartDate: 01/2022
-EndDate: 04/2022
+StartDate: 01/2023
+EndDate: 04/2023
 Acceptance Criteria:
 Given a start and end Date
 All Flights within that date range should return
