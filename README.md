@@ -1,7 +1,7 @@
 # DebuggingTutorial
 Learn to debug in Java and Node.js
 
-
+and using git
 # Running Both Applications
 Learn to debug in Java and Node.js
 
